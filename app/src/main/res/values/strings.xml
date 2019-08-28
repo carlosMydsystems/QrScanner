@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">QrScanner</string>
+    <string name="qr_hint">Pase el código QR en la caja </string>
+
+    <string-array name="opciones">
+        <item>Editar Producto</item>
+        <item>Borrar Producto</item>
+        <item>cancelar</item>
+    </string-array>
+
+</resources>
