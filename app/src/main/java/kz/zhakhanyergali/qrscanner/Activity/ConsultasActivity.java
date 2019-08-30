@@ -48,7 +48,7 @@ public class ConsultasActivity extends AppCompatActivity {
     Clientes clientes;
     Usuario usuario;
     Identificadores identificadores;
-    String numeroPedido,url,fecha,monedaPedido,valida ="";
+    String numeroPedido,url,fecha,monedaPedido;
     ListView lvdetallepedidos;
     DetallePedido detallepedido;
     ArrayList<DetallePedido> listaDetallePedido;
@@ -118,8 +118,6 @@ public class ConsultasActivity extends AppCompatActivity {
 
     private void VerificarCantidad(String numeroPedido) {
 
-
-        final String evento;
         final ProgressDialog progressDialog = new ProgressDialog(ConsultasActivity.this);
         progressDialog.setMessage("...Cargando");
         progressDialog.setCancelable(false);
@@ -168,7 +166,6 @@ public class ConsultasActivity extends AppCompatActivity {
 
                                 }else {
 
-
                                     Double Aux = (1 - Double.valueOf(detallepedido.getTasaDscto())/100) * Double.valueOf(detallepedido.getPrecio().replace(",", ""));
                                     Double cant = Double.valueOf(detallepedido.getCantidad().replace(",", ""));
                                     Double subtotal = Double.valueOf(cant*Aux);
@@ -209,41 +206,41 @@ public class ConsultasActivity extends AppCompatActivity {
                                         public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
                                         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
 
-                                        switch (i) {
-                                            case 0: // Editar producto
-                                                    Editarproductoselecionado(position);
+                                            switch (i) {
+                                                case 0: // Editar producto
+                                                        Editarproductoselecionado(position);
 
+                                                        break;
+                                                case 1: // Eliminar el Producto
+                                                        final String trama1 = listaDetallePedido.get(position).getNroPedido() + "|" + listaDetallePedido.get(position).getNroOrden();
+                                                        final AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                                                                ConsultasActivity.this);
+                                                        builder1.setCancelable(false);
+                                                        builder1.setMessage("Esta seguro que desea eliminar el pedido?")
+                                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    EliminarProducto(trama1);
+                                                                    dialogInterface.cancel();
+                                                                    salirlistview();
+                                                                }
+                                                            })
+                                                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.cancel();
+                                                                    salirlistview();
+                                                                }
+                                                            })
+                                                            .create()
+                                                            .show();
+                                                        break;
+
+                                                case 2: // Cancela la accion pero elimina la promocion
+
+                                                    salirlistview();
                                                     break;
-                                            case 1: // Eliminar el Producto
-                                                    final String trama1 = listaDetallePedido.get(position).getNroPedido() + "|" + listaDetallePedido.get(position).getNroOrden();
-                                                    final AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                                                            ConsultasActivity.this);
-                                                    builder1.setCancelable(false);
-                                                    builder1.setMessage("Esta seguro que desea eliminar el pedido?")
-                                                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                                EliminarProducto(trama1);
-                                                                dialogInterface.cancel();
-                                                                salirlistview();
-                                                            }
-                                                        })
-                                                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.cancel();
-                                                                salirlistview();
-                                                            }
-                                                        })
-                                                        .create()
-                                                        .show();
-                                                    break;
-
-                                            case 2: // Cancela la accion pero elimina la promocion
-
-                                                salirlistview();
-                                                break;
-                                        }
+                                            }
                                         }
                                     });
                                     builder.setView(mview);
@@ -251,7 +248,6 @@ public class ConsultasActivity extends AppCompatActivity {
                                     if (mview.getParent() != null)
                                         ((ViewGroup) mview.getParent()).removeView(mview); // <- fix
                                     dialog.show();
-
                                 }
                             });
 

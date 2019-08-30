@@ -44,8 +44,6 @@
             android:layout_weight="1"
             android:text="RUC / DNI" />
 
-
-
     </RadioGroup>
 
     <EditText
@@ -95,10 +93,10 @@
         android:layout_width="0dp"
         android:layout_height="47dp"
         android:background="#014284"
-        android:text="Buscar Cliente"
-        android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="18sp"
+        android:text="Buscar Cliente"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -110,9 +108,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_media_rew" />
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

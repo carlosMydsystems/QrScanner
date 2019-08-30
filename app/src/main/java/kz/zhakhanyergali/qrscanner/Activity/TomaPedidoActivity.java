@@ -113,18 +113,13 @@ public class TomaPedidoActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         tvIndice = findViewById(R.id.tvIndice);
         tvmonto = findViewById(R.id.tvmonto);
-
         tvIndice.setText("0");
         etCodProducto.setText("");
 
         if (codigo == null){
-
             etCodProducto.setText("");
-
         }else {
-
             etCodProducto.setText(codigo);
-
         }
 
         buscarMonto(clientes.getCodCliente(),identificadores.getIdPedido());
@@ -273,10 +268,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
             }
         };
 
-
         etCodProducto.addTextChangedListener(textWatcher1);
-
-
 
         btnbuscarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
