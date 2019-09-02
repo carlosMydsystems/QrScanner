@@ -76,7 +76,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         QR = getIntent().getStringExtra("QR");
 
         if(QR==null){QR = "Nulo";}
-
         if ((indiceStr == null)){
             indice = 0;
         }else {
@@ -128,7 +127,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         etCodProducto.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-
             Intent intent = new Intent(TomaPedidoActivity.this,MainActivity.class);
             intent.putExtra("monto", monto);
             intent.putExtra("deDondeViene", "TomaPedido");
@@ -144,13 +142,11 @@ public class TomaPedidoActivity extends AppCompatActivity {
             intent.putExtras(bundle2);
             startActivity(intent);
             finish();
-
             return false;
             }
         });
         precio = 0.0;
         cantidad = "0";
-
 
         final TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -207,7 +203,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                     finish();
 
                 }
-
             }
         });
 
@@ -215,36 +210,43 @@ public class TomaPedidoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            if(Utilitario.isOnline(getApplicationContext())){
+                if(Utilitario.isOnline(getApplicationContext())){
 
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(etCodProducto.getWindowToken(), 0);
-                MostrarSegundoPanel(true);
-                if (etCantidad.getText().toString().equals("")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
-                    builder.setTitle("Atención !");
-                    builder.setMessage("Por favor ingrese una cantidad valida");
-                    builder.setCancelable(false);
-                    builder.setNegativeButton("Aceptar",null);
-                    builder.create()
-                            .show();
-                }else {
-                    buscarproducto(etCantidad.getText().toString(),etCodProducto.getText().toString());
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(etCodProducto.getWindowToken(), 0);
+                    MostrarSegundoPanel(true);
+
+                    if (etCantidad.getText().toString().equals("")) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
+                        builder.setTitle("Atención !");
+                        builder.setMessage("Por favor ingrese una cantidad valida");
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("Aceptar",null);
+                        builder.create()
+                                .show();
+
+                    }else {
+
+                        buscarproducto(etCantidad.getText().toString(),etCodProducto.getText().toString());
+
+                    }
+                }else{
+
+                    AlertDialog.Builder build = new AlertDialog.Builder(TomaPedidoActivity.this);
+                    build.setTitle("Atención .. !");
+                    build.setMessage("El Servicio de Internet no esta Activo, por favor revisar");
+                    build.setCancelable(false);
+                    build.setNegativeButton("ACEPTAR",null);
+                    build.create().show();
+
                 }
-            }else{
-                AlertDialog.Builder build = new AlertDialog.Builder(TomaPedidoActivity.this);
-                build.setTitle("Atención .. !");
-                build.setMessage("El Servicio de Internet no esta Activo, por favor revisar");
-                build.setCancelable(false);
-                build.setNegativeButton("ACEPTAR",null);
-                build.create().show();
-            }
             }
         });
         if(QR.equals("Ok")){
+
             buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
 
-            //buscarproducto("1",etCodProducto.getText().toString());
         }
 
         final TextWatcher textWatcher1 = new TextWatcher() {
@@ -269,7 +271,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         };
 
         etCodProducto.addTextChangedListener(textWatcher1);
-
         btnbuscarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,8 +293,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                 }else {
 
                     buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
-
-                    //buscarproducto("1",etCodProducto.getText().toString());
 
                 }
 
@@ -465,7 +464,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
             Toast.makeText(TomaPedidoActivity.this, "Si esta duplicado", Toast.LENGTH_SHORT).show();
             Aux = Integer.parseInt(tvIndice.getText().toString());
             tvIndice.setText(""+Aux);
-            //buscarMonto(clientes.getCodCliente(),identificadores.getIdPedido());
 
         }
 
@@ -741,11 +739,9 @@ public class TomaPedidoActivity extends AppCompatActivity {
     private void buscarMonto(String CodCliente,final String IdPedido1) {
 
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
-
         url = ejecutaFuncionCursorTestMovil +
                 "PKG_WEB_HERRAMIENTAS.FN_WS_LISTAR_PEDIDOS_PEN_EVE&variables=%27"+CodCliente+"%27";
         listaIdentificadoresPrecio = new ArrayList<>();
-
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url ,
                 new Response.Listener<String>() {
                     @Override
@@ -778,8 +774,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                         error = true;
                                     }
                                 }
-
-
                                 if (error) {
 
                                     AlertDialog.Builder dialog = new AlertDialog.Builder(
@@ -790,8 +784,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                             .create()
                                             .show();
                                 } else {
-
-
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         jsonObject = jsonArray.getJSONObject(i);
                                         identificadoresPrecio = new Identificadores();
@@ -799,28 +791,18 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                         identificadoresPrecio.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
                                         identificadoresPrecio.setDetalle(jsonObject.getString("DETALLE"));
                                         if (identificadoresPrecio.getIdPedido().equals(IdPedido1)){
-
                                             listaIdentificadoresPrecio.add(identificadoresPrecio);
                                         }
                                     }
                                     tvmonto.setText(listaIdentificadoresPrecio.get(0).getImporteTotal());
-
-                                    /*
-                                        Toast.makeText(TomaPedidoActivity.this, "" + tvmonto.getText().toString(), Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(TomaPedidoActivity.this, "" + cadenaTituloAux, Toast.LENGTH_SHORT).show();
-                                    */
-
                                     if(tvmonto.getText().toString().equals("null")){
-
                                         tvmonto.setText("0.00");
-                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
-
+                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +
+                                                Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
                                     }else {
-
-                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
-
+                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +
+                                                Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
                                     }
-
                                     tvtitulodinamico.setText(cadenaTituloAux);
 
                                 }
@@ -886,7 +868,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                         intAux = indice;
                                     }
                                 }
-                                Toast.makeText(TomaPedidoActivity.this, "Indice " + indice, Toast.LENGTH_SHORT).show();
                                 tvIndice.setText(""+indice);
 
                             }else {
