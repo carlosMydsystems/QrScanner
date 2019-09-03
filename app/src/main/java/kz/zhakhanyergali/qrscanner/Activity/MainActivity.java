@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         // show custom alert dialog
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.custom_dialog);
 
         View v = dialog.getWindow().getDecorView();

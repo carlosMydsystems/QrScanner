@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -119,14 +118,13 @@ public class TomaPedidoActivity extends AppCompatActivity {
             etCodProducto.setText(codigo);
         }
 
+        /*
         cadenaTituloAux = "Productos : " + identificadores.getDetalle() + "   |  Monto : " +
                 Soles + "\t"+ formateador.format(Double.parseDouble(identificadores.getImporteTotal())) + "";
+|       */
 
         tvtitulodinamico.setText(cadenaTituloAux);
-
-
         tvIndice.setText(identificadores.getCorrelativo());
-        Toast.makeText(this, "tvIndice N° 1 :" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
 
         if(tipoMenu.equals("Actualizacion")){
 
@@ -145,8 +143,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
             if(QR.equals("Ok")){
                 buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
             }
-
-
 
         }
 
@@ -442,20 +438,13 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                                     }
 
-                                    Toast.makeText(TomaPedidoActivity.this, ""+listaPedido.get(0).getDescripcion(), Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
 
 
                                     tvIndice.setText(listaPedido.get(0).getIndice());
-                                    Toast.makeText(getApplicationContext(), "tvIndice N° 2" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
-
-
                                     tvDescripcionProducto.setVisibility(View.VISIBLE);
 
                                     MostrarPrimerPanel(true);
-
-                                    Toast.makeText(TomaPedidoActivity.this, "" + listaPedido.get(0).getDescripcion(), Toast.LENGTH_SHORT).show();
-
 
                                     String descripcionProducto = listaPedido.get(0).getDescripcion();
                                     if(descripcionProducto.length() > 45 ) {
@@ -493,7 +482,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                 }
                             }else {
                                 tvmonto.setText("NoDuplicado");
-                                Toast.makeText(getApplicationContext(), "tvIndice N° 3" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
                                 listaPedido.clear();
                                 progressDialog.dismiss();
                                 buscarproducto("1",etCodProducto.getText().toString());
@@ -540,13 +528,11 @@ public class TomaPedidoActivity extends AppCompatActivity {
         if(tvmonto.getText().equals("NoDuplicado")){
 
             indice = Integer.parseInt(tvIndice.getText().toString());
-            Toast.makeText(this, "Auxiliar : " + indice, Toast.LENGTH_SHORT).show();
             indice = indice + 1;
             tvIndice.setText(""+indice);
 
         }else {
 
-            Toast.makeText(TomaPedidoActivity.this, "Si esta duplicado", Toast.LENGTH_SHORT).show();
             Aux = Integer.parseInt(tvIndice.getText().toString());
             tvIndice.setText(""+Aux);
 

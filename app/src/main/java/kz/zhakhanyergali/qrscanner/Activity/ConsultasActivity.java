@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,22 +21,18 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-
 import kz.zhakhanyergali.qrscanner.Entidades.Clientes;
 import kz.zhakhanyergali.qrscanner.Entidades.DetallePedido;
 import kz.zhakhanyergali.qrscanner.Entidades.Identificadores;
 import kz.zhakhanyergali.qrscanner.Entidades.Usuario;
 import kz.zhakhanyergali.qrscanner.R;
 import kz.zhakhanyergali.qrscanner.Utilitarios.Utilitario;
-
 import static kz.zhakhanyergali.qrscanner.Activity.LoginActivity.ejecutaFuncionCursorTestMovil;
 import static kz.zhakhanyergali.qrscanner.Activity.LoginActivity.ejecutaFuncionTestMovil;
 
@@ -342,9 +336,6 @@ public class ConsultasActivity extends AppCompatActivity {
 
     private void Editarproductoselecionado(int position) {
 
-
-
-
         Intent intent = new Intent(ConsultasActivity.this,TomaPedidoActivity.class);
         identificadores.setIdPedido(listaDetallePedido.get(position).getNroPedido());
         intent.putExtra("codigo",listaDetallePedido.get(position).getCodArticulo());
@@ -364,7 +355,6 @@ public class ConsultasActivity extends AppCompatActivity {
         intent.putExtras(bundle3);
         startActivity(intent);
         finish();
-
     }
 }
 
