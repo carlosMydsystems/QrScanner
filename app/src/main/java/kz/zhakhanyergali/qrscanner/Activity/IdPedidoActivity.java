@@ -115,6 +115,7 @@ public class IdPedidoActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(IdPedidoActivity.this, ConsultasActivity.class);
                     intent.putExtra("indice", identificadores.getDetalle());
+                    intent.putExtra("monto", listaIdentificadores.get(position).getImporteTotal());
                     intent.putExtra("tipoMenu", ""+tipoMenu);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Cliente", cliente);

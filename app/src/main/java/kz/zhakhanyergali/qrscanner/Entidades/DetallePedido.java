@@ -10,13 +10,48 @@ public class DetallePedido implements Serializable {
     private String undMedida;
     private String cantidad;
     private String precio;
-    private String subtotal;
     private String nroOrden;
     private String tipoRegistro;
     private String tasaDscto;
+    private String precioOrigen;
+    private String precioFinal;
+    private String subTotal;
+    private String stock;
 
 
     public DetallePedido() {
+    }
+
+    public String getPrecioOrigen() {
+        return precioOrigen;
+    }
+
+    public void setPrecioOrigen(String precioOrigen) {
+        this.precioOrigen = precioOrigen;
+    }
+
+    public String getPrecioFinal() {
+        return precioFinal;
+    }
+
+    public void setPrecioFinal(String precioFinal) {
+        this.precioFinal = precioFinal;
+    }
+
+    public String getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(String subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 
     public String getTasaDscto() {
@@ -91,11 +126,4 @@ public class DetallePedido implements Serializable {
         this.precio = precio;
     }
 
-    public String getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(String subtotal) {
-        this.subtotal = subtotal;
-    }
 }

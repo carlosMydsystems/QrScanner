@@ -64,7 +64,7 @@ public class BusquedaClienteActivity extends AppCompatActivity {
         btnbuscar = findViewById(R.id.btnBuscar);
         lvclientes = findViewById(R.id.lvidPedidos);
         etcliente = findViewById(R.id.etCliente);
-        etcliente.setInputType(1);
+        etcliente.setInputType(2);
         tipoConsulta = "Razon";
         tipoMenu = getIntent().getStringExtra("tipoMenu");
         QR = getIntent().getStringExtra("QR");
@@ -76,12 +76,6 @@ public class BusquedaClienteActivity extends AppCompatActivity {
         }else {
 
         }
-
-
-
-
-
-
 
         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");  //Se pasa el parametro del usuario
         ibregresomenuprincipal = findViewById(R.id.ibRetornoBusquedaCliente);
@@ -240,7 +234,6 @@ public class BusquedaClienteActivity extends AppCompatActivity {
                 build.setNegativeButton("ACEPTAR",null);
                 build.create().show();
             }
-
         }
 
     }
@@ -277,10 +270,12 @@ public class BusquedaClienteActivity extends AppCompatActivity {
 
                 url = ejecutaFuncionCursorTestMovil +
                         "PKG_WEB_HERRAMIENTAS.FN_WS_CONSULTAR_CLIENTE&variables='" + numero + "||'";
+
             } else if(tipoConsulta == "Codigo"){
 
                 url = ejecutaFuncionCursorTestMovil +
                         "PKG_WEB_HERRAMIENTAS.FN_WS_CONSULTAR_CLIENTE&variables='||" + numero + "'";
+
             }else if(tipoConsulta == "Razon"){
 
                 url = ejecutaFuncionCursorTestMovil +

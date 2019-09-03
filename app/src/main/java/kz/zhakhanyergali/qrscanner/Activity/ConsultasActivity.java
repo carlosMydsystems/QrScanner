@@ -44,18 +44,16 @@ import static kz.zhakhanyergali.qrscanner.Activity.LoginActivity.ejecutaFuncionT
 
 public class ConsultasActivity extends AppCompatActivity {
 
-    String tipoMenu;
     Clientes clientes;
     Usuario usuario;
     Identificadores identificadores;
-    String numeroPedido,url,fecha,monedaPedido;
-    ListView lvdetallepedidos;
+    String numeroPedido,url,fecha,monedaPedido,tipoMenu;
+    ListView lvdetallepedidos,listView;
     DetallePedido detallepedido;
     ArrayList<DetallePedido> listaDetallePedido;
     ArrayList<String> listadetallemostrarPedido;
     TextView tvtitulodinamicoPedidos,tvcancel;
     ImageButton ibretornomenuConsulta;
-    ListView listView;
     View mview;
 
     @Override
@@ -96,22 +94,7 @@ public class ConsultasActivity extends AppCompatActivity {
         });
 
         VerificarCantidad(numeroPedido);
-/*
-        if(Utilitario.isOnline(getApplicationContext())){
 
-            VerificarCantidad(numeroPedido);
-
-        }else{
-
-            AlertDialog.Builder build = new AlertDialog.Builder(DetalleActivity.this);
-            build.setTitle("Atención .. !");
-            build.setMessage("El Servicio de Internet no esta Activo, por favor revisar");
-            build.setCancelable(false);
-            build.setNegativeButton("ACEPTAR",null);
-            build.create().show();
-
-        }
-        */
     }
 
     // Parte que hace la verificación de la cantidad ingresada
@@ -131,6 +114,7 @@ public class ConsultasActivity extends AppCompatActivity {
         final DecimalFormat formateador = new DecimalFormat("###,##0.00",simbolos); // Se crea el formato del numero con los simbolo
 
         // Se hace la instanciación de los dos Arraylist
+
         listaDetallePedido = new ArrayList<>();
         listadetallemostrarPedido = new ArrayList<>();
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
@@ -158,10 +142,18 @@ public class ConsultasActivity extends AppCompatActivity {
                                 detallepedido.setCantidad(jsonObject.getString("CANTIDAD"));
                                 detallepedido.setTasaDscto(jsonObject.getString("TASA_DESCUENTO"));
                                 detallepedido.setPrecio(jsonObject.getString("PRECIO"));
+                                detallepedido.setPrecioOrigen(jsonObject.getString("PRECIO_ORIGEN"));
+                                detallepedido.setPrecioFinal(jsonObject.getString("PRECIO_FINAL"));
+                                detallepedido.setSubTotal(jsonObject.getString("SUBTOTAL"));
+                                detallepedido.setUndMedida(jsonObject.getString("UND_MEDIDA"));
+                                detallepedido.setStock(jsonObject.getString("STOCK"));
+
                                 if (detallepedido.getPrecio().equals("null")){
                                     detallepedido.setPrecio("0.0");
                                 }
+
                                 detallepedido.setArticulo(jsonObject.getString("ARTICULO"));
+
                                 if(detallepedido.getNroOrden().equals("0")){
 
                                 }else {
@@ -201,6 +193,9 @@ public class ConsultasActivity extends AppCompatActivity {
                                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
 
                                     listView.setAdapter(adapter);
+
+                                   //lvbandejaproductos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
                                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -347,8 +342,10 @@ public class ConsultasActivity extends AppCompatActivity {
 
     private void Editarproductoselecionado(int position) {
 
+
+
+
         Intent intent = new Intent(ConsultasActivity.this,TomaPedidoActivity.class);
-        Identificadores identificadores = new Identificadores();
         identificadores.setIdPedido(listaDetallePedido.get(position).getNroPedido());
         intent.putExtra("codigo",listaDetallePedido.get(position).getCodArticulo());
         intent.putExtra("QR","Ok");
@@ -362,6 +359,9 @@ public class ConsultasActivity extends AppCompatActivity {
         Bundle bundle2 = new Bundle();
         bundle2.putSerializable("Identificadores", identificadores);
         intent.putExtras(bundle2);
+        Bundle bundle3 = new Bundle();
+        bundle3.putSerializable("DetallePedido", listaDetallePedido.get(position));
+        intent.putExtras(bundle3);
         startActivity(intent);
         finish();
 
