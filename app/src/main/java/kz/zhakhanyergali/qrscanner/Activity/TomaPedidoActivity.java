@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -84,6 +86,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
         tipoMenu = getIntent().getStringExtra("tipoMenu");
         detallePedido = (DetallePedido) getIntent().getSerializableExtra("DetallePedido");
+
         nombreCliente = clientes.getCodCliente() + " - "+ clientes.getNombre();
         codigo = getIntent().getStringExtra("codigo");
         tvCliente = findViewById(R.id.tvCliente);
@@ -110,6 +113,8 @@ public class TomaPedidoActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         tvIndice = findViewById(R.id.tvIndice);
         tvmonto = findViewById(R.id.tvmonto);
+
+        Toast.makeText(this, "indice : "+ detallePedido.getNroOrden(), Toast.LENGTH_SHORT).show();
         etCodProducto.setText("");
 
         if (codigo == null){
@@ -118,10 +123,8 @@ public class TomaPedidoActivity extends AppCompatActivity {
             etCodProducto.setText(codigo);
         }
 
-        /*
         cadenaTituloAux = "Productos : " + identificadores.getDetalle() + "   |  Monto : " +
                 Soles + "\t"+ formateador.format(Double.parseDouble(identificadores.getImporteTotal())) + "";
-|       */
 
         tvtitulodinamico.setText(cadenaTituloAux);
         tvIndice.setText(identificadores.getCorrelativo());
@@ -252,9 +255,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                     }else {
 
-
                         buscarproducto(etCantidad.getText().toString(),etCodProducto.getText().toString());
-
                     }
                 }else{
                     AlertDialog.Builder build = new AlertDialog.Builder(TomaPedidoActivity.this);
@@ -538,9 +539,16 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
         }
 
+        if(tipoMenu.equals("Actualizacion")){
+
+            tvIndice.setText(detallePedido.getNroOrden());
+
+        }
+
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
 
-        url = ejecutaFuncionTestMovil +
+
+                url = ejecutaFuncionTestMovil +
                 "PKG_WEB_HERRAMIENTAS.FN_WS_REGISTRA_TRAMA_MOVIL&variables='"+identificadores.getIdPedido()
                 +"|D|"+tvIndice.getText().toString()+"|"+etCantidad.getText().toString()+"|"+codProducto
                 +"|"+tvPrecioReal.getText().toString()+"|"+tvTasaDscto.getText().toString()+"||"

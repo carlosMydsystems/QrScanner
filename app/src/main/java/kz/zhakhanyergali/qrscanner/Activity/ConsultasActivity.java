@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -153,6 +155,7 @@ public class ConsultasActivity extends AppCompatActivity {
                                 }else {
 
                                     Double Aux = (1 - Double.valueOf(detallepedido.getTasaDscto())/100) * Double.valueOf(detallepedido.getPrecio().replace(",", ""));
+                                    String AuxStr = formateador.format(Aux);
                                     Double cant = Double.valueOf(detallepedido.getCantidad().replace(",", ""));
                                     Double subtotal = Double.valueOf(cant*Aux);
                                     precioAcumulado = precioAcumulado + subtotal;
@@ -160,7 +163,7 @@ public class ConsultasActivity extends AppCompatActivity {
 
                                     listadetallemostrarPedido.add(detallepedido.getCodArticulo() + " - "
                                             + detallepedido.getArticulo() + " - "+ detallepedido.getArticulo() + "\n" + "Cant : " + detallepedido.getCantidad()+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+
-                                            "\n" + "Precio : "+"S/  "+ Aux + "\t\t\t\t\t\t Subtotal : S/ "+ ss );
+                                            "\n" + "Precio : "+"S/  "+ AuxStr + "\t\t\t\t\t\t Subtotal : S/ "+ ss );
                                     listaDetallePedido.add(detallepedido);
                                 }
                             }
