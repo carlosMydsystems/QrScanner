@@ -114,7 +114,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         tvIndice = findViewById(R.id.tvIndice);
         tvmonto = findViewById(R.id.tvmonto);
 
-        Toast.makeText(this, "indice : "+ detallePedido.getNroOrden(), Toast.LENGTH_SHORT).show();
         etCodProducto.setText("");
 
         if (codigo == null){
@@ -134,7 +133,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
             MostrarPrimerPanel(true);
             tvStock.setText(detallePedido.getStock());
             tvUnidad.setText(detallePedido.getUndMedida());
-            tvPrecio.setText(detallePedido.getPrecioOrigen());
+            tvPrecio.setText(detallePedido.getPrecioFinal());
             etCodProducto.setEnabled(false);
             tvDescripcionProducto.setText(detallePedido.getArticulo());
             btnbuscarProducto.setEnabled(false);
