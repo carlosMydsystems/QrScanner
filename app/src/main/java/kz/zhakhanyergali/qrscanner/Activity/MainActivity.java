@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         tipoMenu = getIntent().getStringExtra("tipoMenu");
         monto = getIntent().getStringExtra("monto");
         deDondeViene = getIntent().getStringExtra("deDondeViene");
-        Toast.makeText(this, "El indice en la lectora es: " +indice, Toast.LENGTH_SHORT).show();
         // show custom alert dialog
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -159,8 +158,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
                     Intent intent = new Intent(MainActivity.this,TomaPedidoActivity.class);
                     intent.putExtra("codigo",rawResult.toString());
-
-                    Toast.makeText(MainActivity.this, "El indice es : " + indice, Toast.LENGTH_SHORT).show();
                     intent.putExtra("monto", monto);
                     intent.putExtra("QR","Ok");
                     intent.putExtra("tipoMenu", ""+tipoMenu);

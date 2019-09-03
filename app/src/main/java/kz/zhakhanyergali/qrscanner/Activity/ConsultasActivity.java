@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -154,16 +152,28 @@ public class ConsultasActivity extends AppCompatActivity {
 
                                 }else {
 
-                                    Double Aux = (1 - Double.valueOf(detallepedido.getTasaDscto())/100) * Double.valueOf(detallepedido.getPrecio().replace(",", ""));
+
+                                    // Double Aux = (1 - Double.valueOf(detallepedido.getTasaDscto())/100) * Double.valueOf(detallepedido.getPrecio().replace(",", ""));
+                                    Double Aux = (Double.parseDouble(detallepedido.getPrecioFinal()));
                                     String AuxStr = formateador.format(Aux);
                                     Double cant = Double.valueOf(detallepedido.getCantidad().replace(",", ""));
                                     Double subtotal = Double.valueOf(cant*Aux);
                                     precioAcumulado = precioAcumulado + subtotal;
                                     String ss = formateador.format(Double.parseDouble(""+subtotal));
 
+
+
+
+
+
+
+
+
                                     listadetallemostrarPedido.add(detallepedido.getCodArticulo() + " - "
-                                            + detallepedido.getArticulo() + " - "+ detallepedido.getArticulo() + "\n" + "Cant : " + detallepedido.getCantidad()+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+
-                                            "\n" + "Precio : "+"S/  "+ AuxStr + "\t\t\t\t\t\t Subtotal : S/ "+ ss );
+                                            + detallepedido.getArticulo() + " - "+ detallepedido.getArticulo() + "\n"
+                                            + "Cant : " + detallepedido.getCantidad()+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+
+                                            "\n" + "Precio : "+"S/  "+ AuxStr +
+                                            "\t\t\t\t\t\t Subtotal : S/ "+ detallepedido.getSubTotal() );
                                     listaDetallePedido.add(detallepedido);
                                 }
                             }

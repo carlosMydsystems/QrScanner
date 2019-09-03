@@ -20,12 +20,12 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.TomaPedidoActivity"></activity>
-        <activity android:name=".Activity.ConsultasActivity" />
-        <activity android:name=".Activity.IdPedidoActivity" />
-        <activity android:name=".Activity.BusquedaClienteActivity" />
-        <activity android:name=".Activity.MenuActivity" />
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name=".Activity.TomaPedidoActivity" android:screenOrientation="portrait" ></activity>
+        <activity android:name=".Activity.ConsultasActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.IdPedidoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.BusquedaClienteActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.MenuActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Activity.LoginActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +34,7 @@
         </activity>
         <activity
             android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

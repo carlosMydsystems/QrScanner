@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +25,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ArrayList<Producto> listaProducto;
     Producto producto;
-    DecimalFormat formateador;
+    DecimalFormat formateador,formateador1;
     ImageButton ibRegresaCliente;
     Integer indice;
     Identificadores identificadores;
@@ -73,6 +73,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
         simbolos.setDecimalSeparator('.'); // Se define el simbolo para el separador decimal
         simbolos.setGroupingSeparator(',');// Se define el simbolo para el separador de los miles
         formateador = new DecimalFormat("###,##0.00",simbolos); // Se crea el formato del numero con los simbolo
+        formateador1 = new DecimalFormat("###,##0.0000",simbolos); // Se crea el formato del numero con los simbolo
         monto = getIntent().getStringExtra("monto");
         QR = getIntent().getStringExtra("QR");
 
@@ -135,6 +136,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
             tvUnidad.setText(detallePedido.getUndMedida());
             tvPrecio.setText(detallePedido.getPrecioFinal());
             etCodProducto.setEnabled(false);
+
             tvDescripcionProducto.setText(detallePedido.getArticulo());
             btnbuscarProducto.setEnabled(false);
             tvSubtotal.setText(detallePedido.getSubTotal());
@@ -267,8 +269,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
             }
         });
 
-
-
         final TextWatcher textWatcher1 = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -314,7 +314,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                     }else {
 
                         buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
-
                     }
 
                 }else{
@@ -330,13 +329,9 @@ public class TomaPedidoActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer Aux;
 
                 /*
 
@@ -364,6 +359,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
     }
 
     private void buscarDuplicado(String IdPedido,String CodArticulo) {
+
 
         progressDialog = new ProgressDialog(TomaPedidoActivity.this);
         progressDialog.setMessage("Cargando...");
@@ -464,7 +460,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                     Double precioStr = (1 - (tasaDscto/100))*precio;
 
                                     tvStock.setText(formateador.format(Double.valueOf(listaPedido.get(0).getStock())));
-                                    tvPrecio.setText(formateador.format(precioStr));
+                                    tvPrecio.setText(formateador1.format(precioStr));
 
                                     if (listaPedido.size() == 0){
                                         if (etCantidad.getText().toString().equals("")){
@@ -813,6 +809,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                 descripcionProducto = descripcionProducto.substring(0,45);
                             }
 
+                            etCantidad.requestFocus();
                             tvDescripcionProducto.setText(descripcionProducto);
 
                             tvPrecioReal.setText(listaProducto.get(0).getPrecio());
@@ -821,12 +818,21 @@ public class TomaPedidoActivity extends AppCompatActivity {
                             tvEquivalencia.setText(listaProducto.get(0).getEquivalencia());
                             tvUnidad.setText(listaProducto.get(0).getUnidad());
 
+                            /*
                             Double precio = Double.parseDouble( listaProducto.get(0).getPrecio());
                             Double tasaDscto = Double.parseDouble(listaProducto.get(0).getTasaDescuento());
                             Double precioStr = (1 - (tasaDscto/100))*precio;
+*/
+
+                            BigDecimal precio = new BigDecimal( listaProducto.get(0).getPrecio());
+                            BigDecimal tasaDscto = new BigDecimal(listaProducto.get(0).getTasaDescuento());
+                            BigDecimal cien = new BigDecimal("100");
+                            BigDecimal uno = new BigDecimal("1");
+                            BigDecimal precioStr = ( uno.subtract(tasaDscto.divide(cien))).multiply(precio);
+
 
                             tvStock.setText(formateador.format(Double.valueOf(listaProducto.get(0).getStock())));
-                            tvPrecio.setText(formateador.format(precioStr));
+                            tvPrecio.setText(formateador1.format(precioStr));
 
                             if(tipoMenu.equals("Actualizacion")){
 
@@ -843,7 +849,9 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                             }
 
-                            Double subTotal = precioStr * Double.parseDouble(etCantidad.getText().toString());
+                            BigDecimal cantidad = new BigDecimal(etCantidad.getText().toString());
+
+                            BigDecimal subTotal = precioStr.multiply(cantidad);
                             tvSubtotal.setText(formateador.format(subTotal));
                         }
                     }else {

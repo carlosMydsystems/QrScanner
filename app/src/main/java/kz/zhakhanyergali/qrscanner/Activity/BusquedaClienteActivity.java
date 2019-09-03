@@ -207,6 +207,7 @@ public class BusquedaClienteActivity extends AppCompatActivity {
 
             etcliente.setText(codigo);
 
+
             if(Utilitario.isOnline(getApplicationContext())){
                 if (etcliente.getText().toString().equals(""))
                 {
