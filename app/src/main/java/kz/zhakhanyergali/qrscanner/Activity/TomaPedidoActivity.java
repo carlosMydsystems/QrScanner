@@ -49,18 +49,17 @@ public class TomaPedidoActivity extends AppCompatActivity {
     Button btnVerificar,btnAgregar,btnbuscarProducto;
     Clientes clientes;
     Usuario usuario;
-    String nombreCliente,url,indiceStr,cadenaTituloAux,cantidad,tipoMenu,codigo,monto,QR;
+    String nombreCliente,url,cadenaTituloAux,cantidad,tipoMenu,codigo,monto,QR;
     ProgressDialog progressDialog;
     ArrayList<Producto> listaProducto;
     Producto producto;
     DecimalFormat formateador;
     ImageButton ibRegresaCliente;
     Integer indice;
-    Identificadores identificadores,identificadoresPrecio;
+    Identificadores identificadores;
     Double precio;
     Pedido pedido;
     ArrayList<Pedido> listaPedido;
-    ArrayList<Identificadores> listaIdentificadoresPrecio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +70,17 @@ public class TomaPedidoActivity extends AppCompatActivity {
         simbolos.setDecimalSeparator('.'); // Se define el simbolo para el separador decimal
         simbolos.setGroupingSeparator(',');// Se define el simbolo para el separador de los miles
         formateador = new DecimalFormat("###,##0.00",simbolos); // Se crea el formato del numero con los simbolo
-        indiceStr = getIntent().getStringExtra("indice");
         monto = getIntent().getStringExtra("monto");
         QR = getIntent().getStringExtra("QR");
 
-        if(QR==null){QR = "Nulo";}
-        if ((indiceStr == null)){
-            indice = 0;
-        }else {
-            indice = Integer.parseInt(indiceStr);
+        if(QR == null){
+            QR = "Es nulo";
         }
+
+        identificadores = (Identificadores)getIntent().getSerializableExtra("Identificadores");
 
         clientes = (Clientes)getIntent().getSerializableExtra("Cliente");
         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
-        identificadores = (Identificadores)getIntent().getSerializableExtra("Identificadores");
         tipoMenu = getIntent().getStringExtra("tipoMenu");
         nombreCliente = clientes.getCodCliente() + " - "+ clientes.getNombre();
         codigo = getIntent().getStringExtra("codigo");
@@ -112,7 +108,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         tvIndice = findViewById(R.id.tvIndice);
         tvmonto = findViewById(R.id.tvmonto);
-        tvIndice.setText("0");
         etCodProducto.setText("");
 
         if (codigo == null){
@@ -121,12 +116,19 @@ public class TomaPedidoActivity extends AppCompatActivity {
             etCodProducto.setText(codigo);
         }
 
-        buscarMonto(clientes.getCodCliente(),identificadores.getIdPedido());
-        BuscaMayor(identificadores.getIdPedido());
+        cadenaTituloAux = "Productos : " + identificadores.getDetalle() + "   |  Monto : " +
+                Soles + "\t"+ formateador.format(Double.parseDouble(identificadores.getImporteTotal())) + "";
+
+        tvtitulodinamico.setText(cadenaTituloAux);
+        tvIndice.setText(identificadores.getCorrelativo());
+        Toast.makeText(this, "tvIndice N° 1 :" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
+
+        // BuscaMayor(identificadores.getIdPedido());
 
         etCodProducto.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+
             Intent intent = new Intent(TomaPedidoActivity.this,MainActivity.class);
             intent.putExtra("monto", monto);
             intent.putExtra("deDondeViene", "TomaPedido");
@@ -143,6 +145,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
             return false;
+
             }
         });
         precio = 0.0;
@@ -201,7 +204,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                     intent.putExtras(bundle3);
                     startActivity(intent);
                     finish();
-
                 }
             }
         });
@@ -232,21 +234,18 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                     }
                 }else{
-
                     AlertDialog.Builder build = new AlertDialog.Builder(TomaPedidoActivity.this);
                     build.setTitle("Atención .. !");
                     build.setMessage("El Servicio de Internet no esta Activo, por favor revisar");
                     build.setCancelable(false);
                     build.setNegativeButton("ACEPTAR",null);
                     build.create().show();
-
                 }
             }
         });
+
         if(QR.equals("Ok")){
-
             buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
-
         }
 
         final TextWatcher textWatcher1 = new TextWatcher() {
@@ -275,28 +274,28 @@ public class TomaPedidoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            if(Utilitario.isOnline(getApplicationContext())){
+                if(Utilitario.isOnline(getApplicationContext())){
 
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(etCodProducto.getWindowToken(), 0);
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(etCodProducto.getWindowToken(), 0);
 
-                if (etCodProducto.getText().toString().equals("")) {
+                    if (etCodProducto.getText().toString().equals("")) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
-                    builder.setTitle("Atención !");
-                    builder.setMessage("Por favor ingrese una cantidad valida");
-                    builder.setCancelable(false);
-                    builder.setNegativeButton("Aceptar",null);
-                    builder.create()
+                        AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
+                        builder.setTitle("Atención !");
+                        builder.setMessage("Por favor ingrese una cantidad valida");
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("Aceptar",null);
+                        builder.create()
                             .show();
 
-                }else {
+                    }else {
 
-                    buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
+                        buscarDuplicado(identificadores.getIdPedido(),etCodProducto.getText().toString());
 
-                }
+                    }
 
-            }else{
+                }else{
 
                 AlertDialog.Builder build = new AlertDialog.Builder(TomaPedidoActivity.this);
                 build.setTitle("Atención .. !");
@@ -305,7 +304,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
                 build.setNegativeButton("ACEPTAR",null);
                 build.create().show();
 
-            }
+                }
             }
         });
 
@@ -328,7 +327,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
                 intent.putExtras(bundle2);
                 startActivity(intent);
                 finish();
-
             agregarPedido(producto.getCodigo(),listaPedido);
 
             }
@@ -392,23 +390,76 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                                     listaPedido.clear();
                                     for (int i = 0; i < jsonArray.length(); i++) {
+
                                         jsonObject = jsonArray.getJSONObject(i);
                                         pedido = new Pedido();
                                         pedido.setIdPedido(jsonObject.getString("ID_PEDIDO"));
                                         pedido.setCodArticulo(jsonObject.getString("COD_ARTICULO"));
                                         pedido.setIndice(jsonObject.getString("NRO_ORDEN")); //
                                         pedido.setCantidad(jsonObject.getString("CANTIDAD"));
-
+                                        pedido.setDescripcion(jsonObject.getString("DESCRIPCION"));
+                                        pedido.setUndMedida(jsonObject.getString("UND_MEDIDA"));
+                                        pedido.setPrecio(jsonObject.getString("PRECIO"));
+                                        pedido.setTasaDscto(jsonObject.getString("TASA_DESCUENTO")); //
+                                        pedido.setPrecioFinal(jsonObject.getString("PRECIO_FINAL"));
+                                        pedido.setSubTotal(jsonObject.getString("SUBTOTAL"));
+                                        pedido.setStock(jsonObject.getString("STOCK"));
                                         listaPedido.add(pedido);
+
                                     }
 
+                                    Toast.makeText(TomaPedidoActivity.this, ""+listaPedido.get(0).getDescripcion(), Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
+
+
                                     tvIndice.setText(listaPedido.get(0).getIndice());
+                                    Toast.makeText(getApplicationContext(), "tvIndice N° 2" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
+
+
+                                    tvDescripcionProducto.setVisibility(View.VISIBLE);
+
+                                    MostrarPrimerPanel(true);
+
+                                    Toast.makeText(TomaPedidoActivity.this, "" + listaPedido.get(0).getDescripcion(), Toast.LENGTH_SHORT).show();
+
+
+                                    String descripcionProducto = listaPedido.get(0).getDescripcion();
+                                    if(descripcionProducto.length() > 45 ) {
+                                        descripcionProducto = descripcionProducto.substring(0,45);
+                                    }
+
+                                    tvDescripcionProducto.setText(descripcionProducto);
+
+
+                                    tvPrecioReal.setText(listaPedido.get(0).getPrecio());
+                                    tvTasaDscto.setText(listaPedido.get(0).getTasaDscto());
+
+                                    tvUnidad.setText(listaPedido.get(0).getUndMedida());
+
+                                    Double precio = Double.parseDouble( listaPedido.get(0).getPrecio());
+                                    Double tasaDscto = Double.parseDouble(listaPedido.get(0).getTasaDscto());
+                                    Double precioStr = (1 - (tasaDscto/100))*precio;
+
+                                    tvStock.setText(formateador.format(Double.valueOf(listaPedido.get(0).getStock())));
+                                    tvPrecio.setText(formateador.format(precioStr));
+
+                                    if (listaPedido.size() == 0){
+                                        if (etCantidad.getText().toString().equals("")){
+                                            etCantidad.setText("1");
+                                        }
+                                    }else {
+                                        etCantidad.setText(listaPedido.get(0).getCantidad());
+                                        listaPedido.clear();
+                                    }
+                                    Double subTotal = precioStr * Double.parseDouble(etCantidad.getText().toString());
+                                    tvSubtotal.setText(formateador.format(subTotal));
+
                                     buscarproducto(pedido.getCantidad(),etCodProducto.getText().toString());
 
                                 }
                             }else {
-                                tvIndice.setText("0");
+                                tvmonto.setText("NoDuplicado");
+                                Toast.makeText(getApplicationContext(), "tvIndice N° 3" + tvIndice.getText().toString(), Toast.LENGTH_SHORT).show();
                                 listaPedido.clear();
                                 progressDialog.dismiss();
                                 buscarproducto("1",etCodProducto.getText().toString());
@@ -451,13 +502,13 @@ public class TomaPedidoActivity extends AppCompatActivity {
         MostrarSegundoPanel(false);
 
 
-        if(tvIndice.getText().equals("0")){
+        actualizaCabecera(clientes.getCodCliente());
+        if(tvmonto.getText().equals("NoDuplicado")){
 
-            Toast.makeText(TomaPedidoActivity.this, "No esta duplicado", Toast.LENGTH_SHORT).show();
+            indice = Integer.parseInt(tvIndice.getText().toString());
+            Toast.makeText(this, "Auxiliar : " + indice, Toast.LENGTH_SHORT).show();
             indice = indice + 1;
-            Aux = indice;
             tvIndice.setText(""+indice);
-
 
         }else {
 
@@ -477,8 +528,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
 
         monto = tvmonto.getText().toString();
-
-
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url ,
                 new Response.Listener<String>() {
                     @Override
@@ -549,9 +598,76 @@ public class TomaPedidoActivity extends AppCompatActivity {
     }
 
 
+    private void actualizaCabecera(String numero) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+
+            url = ejecutaFuncionCursorTestMovil +
+                    "PKG_WEB_HERRAMIENTAS.FN_WS_LISTAR_PEDIDOS_PEN_EVE&variables='"+ numero.trim().
+                    replace("%","%25").toUpperCase() +"'";
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                progressDialog.dismiss();
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                JSONArray jsonArray = jsonObject.getJSONArray("hojaruta");
+                                if (success) {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        identificadores = new Identificadores();
+                                        jsonObject = jsonArray.getJSONObject(i);
+                                        identificadores.setIdPedido(jsonObject.getString("ID_PEDIDO"));
+                                        identificadores.setCliente(jsonObject.getString("CLIENTE"));
+                                        identificadores.setDetalle(jsonObject.getString("DETALLE"));
+                                        identificadores.setFecha(jsonObject.getString("FECHA"));
+                                        identificadores.setSucursal(jsonObject.getString("SUCURSAL_CLI"));
+                                        identificadores.setOrigen(jsonObject.getString("ORIGEN"));
+                                        identificadores.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
+                                        identificadores.setCorrelativo(jsonObject.getString("CORRELATIVO"));
+
+                                    }
+
+                                } else {
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
+                                    builder.setCancelable(false);
+                                    builder.setMessage("No se llego a encontrar el registro")
+                                            .setNegativeButton("Aceptar", null)
+                                            .create()
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    progressDialog.dismiss();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
+                    builder.setTitle("Atención ...!");
+                    builder.setMessage("EL servicio no se encuentra disponible en estos momentos");
+                    builder.setCancelable(false);
+                    builder.setNegativeButton("Aceptar",null);
+                    builder.create().show();
+                }
+            });
+
+            int socketTimeout = 30000;
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            stringRequest.setRetryPolicy(policy);
+            requestQueue.add(stringRequest);
+
+    }
+
     private void buscarproducto(String numero,String CodProducto) {
 
-        final String cantidad = numero;
         progressDialog = new ProgressDialog(TomaPedidoActivity.this);
         progressDialog.setMessage("Cargando...");
         progressDialog.setCancelable(false);
@@ -734,171 +850,6 @@ public class TomaPedidoActivity extends AppCompatActivity {
         }else{
             btnAgregar.setVisibility(View.GONE);
         }
-    }
-
-    private void buscarMonto(String CodCliente,final String IdPedido1) {
-
-        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
-        url = ejecutaFuncionCursorTestMovil +
-                "PKG_WEB_HERRAMIENTAS.FN_WS_LISTAR_PEDIDOS_PEN_EVE&variables=%27"+CodCliente+"%27";
-        listaIdentificadoresPrecio = new ArrayList<>();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        String Mensaje = "";
-                        //Toast.makeText(TomaPedidoActivity.this, ""+response, Toast.LENGTH_SHORT).show();
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-
-                            boolean success = jsonObject.getBoolean("success");
-                            JSONArray jsonArray = jsonObject.getJSONArray("hojaruta");
-                            Boolean condicion = false,error = false;
-                            if (success) {
-                                String Aux = response.replace("{", "|");
-                                Aux = Aux.replace("}", "|");
-                                Aux = Aux.replace("[", "|");
-                                Aux = Aux.replace("]", "|");
-                                Aux = Aux.replace("\"", "|");
-                                Aux = Aux.replace(",", " ");
-                                Aux = Aux.replace("|", "");
-                                Aux = Aux.replace(":", " ");
-                                String partes[] = Aux.split(" ");
-                                for (String palabras : partes) {
-                                    if (condicion) {
-                                        Mensaje += palabras + " ";
-                                    }
-                                    if (palabras.equals("ERROR")) {
-                                        condicion = true;
-                                        error = true;
-                                    }
-                                }
-                                if (error) {
-
-                                    AlertDialog.Builder dialog = new AlertDialog.Builder(
-                                            TomaPedidoActivity.this);
-                                    dialog.setCancelable(false);
-                                    dialog.setMessage(Mensaje)
-                                            .setNegativeButton("Regresar", null)
-                                            .create()
-                                            .show();
-                                } else {
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        jsonObject = jsonArray.getJSONObject(i);
-                                        identificadoresPrecio = new Identificadores();
-                                        identificadoresPrecio.setIdPedido(jsonObject.getString("ID_PEDIDO"));
-                                        identificadoresPrecio.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
-                                        identificadoresPrecio.setDetalle(jsonObject.getString("DETALLE"));
-                                        if (identificadoresPrecio.getIdPedido().equals(IdPedido1)){
-                                            listaIdentificadoresPrecio.add(identificadoresPrecio);
-                                        }
-                                    }
-                                    tvmonto.setText(listaIdentificadoresPrecio.get(0).getImporteTotal());
-                                    if(tvmonto.getText().toString().equals("null")){
-                                        tvmonto.setText("0.00");
-                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +
-                                                Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
-                                    }else {
-                                        cadenaTituloAux = "Productos : " + listaIdentificadoresPrecio.get(0).getDetalle() + "   |  Monto : " +
-                                                Soles + "\t"+ formateador.format(Double.parseDouble(tvmonto.getText().toString())) + "";
-                                    }
-                                    tvtitulodinamico.setText(cadenaTituloAux);
-
-                                }
-                            }else {
-
-                                //buscarproducto("1",etCodProducto.getText().toString());
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(TomaPedidoActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
-                builder.setTitle("Atención ...!");
-                builder.setMessage("EL servicio no se encuentra disponible en estos momentos");
-                builder.setCancelable(false);
-                builder.setNegativeButton("Aceptar",null);
-                builder.create().show();
-            }
-        });
-
-        int socketTimeout = 30000;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(policy);
-        requestQueue.add(stringRequest);
-
-    }
-
-    private void BuscaMayor (String numeroPedido) {
-
-        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
-        url = ejecutaFuncionCursorTestMovil +
-                "PKG_WEB_HERRAMIENTAS.FN_WS_LISTAR_PEDIDOS_TRAMA&variables='"+numeroPedido+"'";
-
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Integer intAux = 0;
-
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            JSONArray jsonArray = jsonObject.getJSONArray("hojaruta");
-                            if (success){
-                                for(int i=0;i<jsonArray.length();i++) {
-                                    jsonObject = jsonArray.getJSONObject(i);
-                                    indice = Integer.parseInt(jsonObject.getString("NRO_ORDEN"));
-
-                                    if (indice < intAux){
-                                        indice = intAux;
-                                    }else{
-                                        intAux = indice;
-                                    }
-                                }
-                                tvIndice.setText(""+indice);
-
-                            }else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
-                                builder.setCancelable(false)
-                                        .setMessage("No se llego a encontrar el registro")
-                                        .setNegativeButton("Aceptar",null)
-                                        .create()
-                                        .show();
-                            }
-                        } catch (JSONException e) { e.printStackTrace(); }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                progressDialog.show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(TomaPedidoActivity.this);
-                builder.setTitle("Atención ...!");
-                builder.setMessage("EL servicio no se encuentra disponible en estos momentos");
-                builder.setCancelable(false);
-                builder.setNegativeButton("Aceptar",null);
-                builder.create().show();
-
-            }
-        });
-        int socketTimeout = 30000;
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(policy);
-        requestQueue.add(stringRequest);
     }
 
 }

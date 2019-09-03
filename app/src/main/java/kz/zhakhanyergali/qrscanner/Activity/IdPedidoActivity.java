@@ -24,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import kz.zhakhanyergali.qrscanner.Entidades.Clientes;
-import kz.zhakhanyergali.qrscanner.Entidades.DetallePedido;
 import kz.zhakhanyergali.qrscanner.Entidades.Identificadores;
 import kz.zhakhanyergali.qrscanner.Entidades.Usuario;
 import kz.zhakhanyergali.qrscanner.R;
@@ -43,7 +42,6 @@ public class IdPedidoActivity extends AppCompatActivity {
     ArrayList<Identificadores> listaIdentificadores;
     Identificadores identificadores;
     String tipoMenu;
-    DetallePedido detallePedido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,7 @@ public class IdPedidoActivity extends AppCompatActivity {
         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");  //Se pasa el parametro del usuario
         cliente = (Clientes)getIntent().getSerializableExtra(("Cliente"));
         tipoMenu = getIntent().getStringExtra("tipoMenu");
+
         listarId(cliente.getCodCliente());
         ibRetornoBusquedaCliente = findViewById(R.id.ibRetornoBusquedaCliente);
         ibRetornoBusquedaCliente.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +127,12 @@ public class IdPedidoActivity extends AppCompatActivity {
                     intent.putExtras(bundle2);
                     startActivity(intent);
                     finish();
+
                 }
             }else{
+
                 Toast.makeText(IdPedidoActivity.this, "Este pedido no es del evento", Toast.LENGTH_SHORT).show();
+
             }
             }
         });
@@ -196,6 +198,7 @@ public class IdPedidoActivity extends AppCompatActivity {
                                 identificadores.setSucursal(jsonObject.getString("SUCURSAL_CLI"));
                                 identificadores.setOrigen(jsonObject.getString("ORIGEN"));
                                 identificadores.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
+                                identificadores.setCorrelativo(jsonObject.getString("CORRELATIVO"));
                                 listaIdentificadores.add(identificadores);
                                 listaIdentificadoresStr.add(identificadores.getOrigen()+" - "+identificadores.getIdPedido());
                             }
@@ -203,7 +206,7 @@ public class IdPedidoActivity extends AppCompatActivity {
                             Utilitario.CustomListAdapter listAdapter = new
                                     Utilitario.CustomListAdapter(IdPedidoActivity.this, R.layout.custom_list, listaIdentificadoresStr);
                             lvidPedidos.setAdapter(listAdapter);
-                            // Toast.makeText(IdPedidoActivity.this, "el indice dentro de listar es " + indice, Toast.LENGTH_SHORT).show();
+
                         } else {
                             listaIdentificadoresStr.clear();
                             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext()
@@ -242,6 +245,4 @@ public class IdPedidoActivity extends AppCompatActivity {
             requestQueue.add(stringRequest);
         }
     }
-
-
 }

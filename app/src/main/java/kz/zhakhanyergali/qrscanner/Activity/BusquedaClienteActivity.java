@@ -319,9 +319,28 @@ public class BusquedaClienteActivity extends AppCompatActivity {
                                     listaCliente.add(cliente.getCodCliente() + " - " + cliente.getNombre());
                                 }
 
-                                Utilitario.CustomListAdapter listAdapter = new
-                                        Utilitario.CustomListAdapter(BusquedaClienteActivity.this, R.layout.custom_list, listaCliente);
-                                lvclientes.setAdapter(listAdapter);
+                                if (listaClientes.size() == 1){
+
+                                    cliente = new Clientes();
+                                    cliente =  listaClientes.get(0);
+                                    Intent intent =  new Intent(BusquedaClienteActivity.this,IdPedidoActivity.class);
+                                    intent.putExtra("tipoMenu", ""+tipoMenu);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("Cliente",cliente);
+                                    intent.putExtras(bundle);
+                                    Bundle bundle1 = new Bundle();
+                                    bundle1.putSerializable("Usuario",usuario);
+                                    intent.putExtras(bundle1);
+                                    startActivity(intent);
+                                    finish();
+
+                                }else {
+
+                                    Utilitario.CustomListAdapter listAdapter = new
+                                            Utilitario.CustomListAdapter(BusquedaClienteActivity.this, R.layout.custom_list, listaCliente);
+                                    lvclientes.setAdapter(listAdapter);
+
+                                }
 
                             } else {
                                 listaCliente.clear();

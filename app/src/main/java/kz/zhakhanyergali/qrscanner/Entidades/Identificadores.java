@@ -11,9 +11,14 @@ public class Identificadores implements Serializable {
     private String sucursal;
     private String origen;
     private String importeTotal;
+    private String Correlativo;
 
     public Identificadores() {
     }
+
+    public String getCorrelativo() { return Correlativo; }
+
+    public void setCorrelativo(String correlativo) { Correlativo = correlativo; }
 
     public String getImporteTotal() {
         return importeTotal;
