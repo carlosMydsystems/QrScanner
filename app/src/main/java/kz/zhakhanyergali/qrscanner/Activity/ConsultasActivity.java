@@ -35,6 +35,7 @@ import kz.zhakhanyergali.qrscanner.R;
 import kz.zhakhanyergali.qrscanner.Utilitarios.Utilitario;
 import static kz.zhakhanyergali.qrscanner.Activity.LoginActivity.ejecutaFuncionCursorTestMovil;
 import static kz.zhakhanyergali.qrscanner.Activity.LoginActivity.ejecutaFuncionTestMovil;
+import static kz.zhakhanyergali.qrscanner.Utilitarios.Utilitario.Soles;
 
 public class ConsultasActivity extends AppCompatActivity {
 
@@ -159,15 +160,7 @@ public class ConsultasActivity extends AppCompatActivity {
                                     Double cant = Double.valueOf(detallepedido.getCantidad().replace(",", ""));
                                     Double subtotal = Double.valueOf(cant*Aux);
                                     precioAcumulado = precioAcumulado + subtotal;
-                                    String ss = formateador.format(Double.parseDouble(""+subtotal));
-
-
-
-
-
-
-
-
+                                    //String ss = formateador.format(Double.parseDouble(""+subtotal));
 
                                     listadetallemostrarPedido.add(detallepedido.getCodArticulo() + " - "
                                             + detallepedido.getArticulo() + " - "+ detallepedido.getArticulo() + "\n"
@@ -187,69 +180,111 @@ public class ConsultasActivity extends AppCompatActivity {
                             mview = getLayoutInflater().inflate(R.layout.listview_dialog, null);
                             lvdetallepedidos.setAdapter(listAdapter);
 
-                            lvdetallepedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+                            lvdetallepedidos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                                 @Override
-                                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(ConsultasActivity.this);
-                                    builder.setCancelable(false);
-                                    listView = mview.findViewById(R.id.lvopciones);
-                                    ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-                                            ConsultasActivity.this, android.R.layout.simple_list_item_1,
-                                            getResources().getStringArray(R.array.opciones));
-                                    adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+                                    if(Utilitario.isOnline(getApplicationContext())){
 
-                                    listView.setAdapter(adapter);
 
-                                   //lvbandejaproductos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-                                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                                        usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
+                                            final AlertDialog.Builder builder = new AlertDialog.Builder(ConsultasActivity.this);
+                                            builder.setCancelable(false);
 
-                                            switch (i) {
-                                                case 0: // Editar producto
-                                                        Editarproductoselecionado(position);
+                                            listView = mview.findViewById(R.id.lvopciones);
+                                            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                                                    ConsultasActivity.this, android.R.layout.simple_list_item_1,
+                                                    getResources().getStringArray(R.array.opciones));
+                                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
 
-                                                        break;
-                                                case 1: // Eliminar el Producto
-                                                        final String trama1 = listaDetallePedido.get(position).getNroPedido() + "|" + listaDetallePedido.get(position).getNroOrden();
-                                                        final AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                                                                ConsultasActivity.this);
-                                                        builder1.setCancelable(false);
-                                                        builder1.setMessage("Esta seguro que desea eliminar el pedido?")
-                                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    EliminarProducto(trama1);
-                                                                    dialogInterface.cancel();
-                                                                    salirlistview();
-                                                                }
-                                                            })
-                                                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    dialog.cancel();
-                                                                    salirlistview();
-                                                                }
-                                                            })
-                                                            .create()
-                                                            .show();
-                                                        break;
+                                            listView.setAdapter(adapter);
 
-                                                case 2: // Cancela la accion pero elimina la promocion
+                                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                                                    usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
 
-                                                    salirlistview();
-                                                    break;
-                                            }
-                                        }
-                                    });
-                                    builder.setView(mview);
-                                    AlertDialog dialog = builder.create();
-                                    if (mview.getParent() != null)
-                                        ((ViewGroup) mview.getParent()).removeView(mview); // <- fix
-                                    dialog.show();
+                                                    switch (i) {
+                                                        case 0: // Editar producto
+
+                                                            Editarproductoselecionado(position);
+
+                                                            break;
+                                                        case 1: // Eliminar el Producto
+                                                            final String trama1 = listaDetallePedido.get(position).getNroPedido() + "|" + listaDetallePedido.get(position).getNroOrden();
+                                                            final AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                                                                    ConsultasActivity.this);
+                                                            builder1.setCancelable(false);
+                                                            builder1.setMessage("Esta seguro que desea eliminar el pedido?")
+                                                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            EliminarProducto(trama1);
+                                                                            dialogInterface.cancel();
+                                                                            salirlistview();
+                                                                        }
+                                                                    })
+                                                                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            dialog.cancel();
+                                                                            salirlistview();
+                                                                        }
+                                                                    })
+                                                                    .create()
+                                                                    .show();
+                                                            break;
+
+                                                        case 2: // Cancela la accion pero elimina la promocion
+
+                                                            salirlistview();
+                                                            break;
+                                                    }
+                                                }
+                                            });
+
+                                            builder.setView(mview);
+                                            AlertDialog dialog = builder.create();
+                                            if (mview.getParent() != null)
+                                                ((ViewGroup) mview.getParent()).removeView(mview); // <- fix
+                                            dialog.show();
+                                            return true;
+
+                                    }else{
+
+                                        AlertDialog.Builder build = new AlertDialog.Builder(ConsultasActivity.this);
+                                        build.setTitle("Atención .. !");
+                                        build.setMessage("El Servicio de Internet no esta Activo, por favor revisar");
+                                        build.setCancelable(false);
+                                        build.setNegativeButton("ACEPTAR",null);
+                                        build.create().show();
+
+                                    }
+                                    return true;
+                                }
+                            });
+
+                            lvdetallepedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                    //Double Aux = Double.valueOf(listaDetallePedido.get(position).getPrecioAcumulado().replace(",", ""));
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ConsultasActivity.this);
+                                    builder.setCancelable(false)
+                                    .setMessage(
+                                        "Codigo\t\t\t\t:\t\t" + listaDetallePedido.get(position).getCodArticulo() + "\n" +
+                                        "Descripción\t:\t\t" + listaDetallePedido.get(position).getArticulo() + "\n" +
+                                        "Cantidad\t\t\t:\t\t" + listaDetallePedido.get(position).getCantidad()  +
+                                        "\t\t" + listaDetallePedido.get(position).getUndMedida() + "\n" +
+                                        "Precio\t\t\t\t\t:\t\t" + Soles + " " + listaDetallePedido.get(position).getPrecio() + "\n" +
+                                        "Subtotal\t\t\t\t:\t\tS/ " + listaDetallePedido.get(position).getSubTotal())
+                                    .setNegativeButton("Aceptar", null)
+                                    .create()
+                                    .show();
                                 }
                             });
 
