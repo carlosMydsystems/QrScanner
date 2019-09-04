@@ -119,7 +119,7 @@ public class BusquedaClienteActivity extends AppCompatActivity {
                     progressDialog.show();
                     progressDialog.setCancelable(false);
                     btnbuscar.setVisibility(View.GONE);
-                    buscarCliente(etcliente.getText().toString(),"Nombre");
+                    buscarCliente(etcliente.getText().toString(),tipoConsulta);
                 }
             }else{
                 progressDialog.dismiss();
@@ -182,24 +182,23 @@ public class BusquedaClienteActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
             //etcliente.setText("");
-            switch (rggrupocliente.getCheckedRadioButtonId()){
-
-                case R.id.rbNombre:
-                    etcliente.setInputType(2);
-                    etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(8)});
-                    tipoConsulta = "Nombre";
-                    break;
-                case R.id.rbCodigo:
-                    etcliente.setInputType(2);
-                    etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(11)});
-                    tipoConsulta = "Codigo";
-                    break;
-                case R.id.rbrazon:
-                    etcliente.setInputType(1);
-                    etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(80)});
-                    tipoConsulta = "Razon";
-                    break;
-            }
+                switch (rggrupocliente.getCheckedRadioButtonId()){
+                    case R.id.rbNombre:
+                        etcliente.setInputType(2);
+                        etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(8)});
+                        tipoConsulta = "Nombre";
+                        break;
+                    case R.id.rbCodigo:
+                        etcliente.setInputType(2);
+                        etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(11)});
+                        tipoConsulta = "Codigo";
+                        break;
+                    case R.id.rbrazon:
+                        etcliente.setInputType(1);
+                        etcliente.setFilters(new InputFilter[] {new InputFilter.LengthFilter(80)});
+                        tipoConsulta = "Razon";
+                        break;
+                }
             }
         });
 
@@ -214,9 +213,9 @@ public class BusquedaClienteActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(BusquedaClienteActivity.this);
                     builder.setCancelable(false);
                     builder.setMessage("Por favor ingrese un valor valido")
-                            .setNegativeButton("Aceptar",null)
-                            .create()
-                            .show();
+                        .setNegativeButton("Aceptar",null)
+                        .create()
+                        .show();
                 }else {
                     progressDialog = new ProgressDialog(BusquedaClienteActivity.this);
                     progressDialog.setMessage("Cargando...");
@@ -224,7 +223,7 @@ public class BusquedaClienteActivity extends AppCompatActivity {
                     progressDialog.show();
                     progressDialog.setCancelable(false);
                     btnbuscar.setVisibility(View.GONE);
-                    buscarCliente(etcliente.getText().toString(),"Nombre");
+                    buscarCliente(etcliente.getText().toString(),tipoConsulta);
                 }
             }else{
                 progressDialog.dismiss();

@@ -179,16 +179,11 @@ public class ConsultasActivity extends AppCompatActivity {
                                     Utilitario.CustomListAdapter(ConsultasActivity.this, R.layout.custom_list, listadetallemostrarPedido);
                             mview = getLayoutInflater().inflate(R.layout.listview_dialog, null);
                             lvdetallepedidos.setAdapter(listAdapter);
-
-
-
                             lvdetallepedidos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                                 @Override
                                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
                                     if(Utilitario.isOnline(getApplicationContext())){
-
-
 
                                             final AlertDialog.Builder builder = new AlertDialog.Builder(ConsultasActivity.this);
                                             builder.setCancelable(false);
