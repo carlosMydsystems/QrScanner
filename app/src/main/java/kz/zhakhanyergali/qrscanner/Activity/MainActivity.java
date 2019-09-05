@@ -234,4 +234,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
 }

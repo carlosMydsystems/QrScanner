@@ -65,13 +65,12 @@ public class BusquedaClienteActivity extends AppCompatActivity {
         lvclientes = findViewById(R.id.lvidPedidos);
         etcliente = findViewById(R.id.etCliente);
         etcliente.setInputType(2);
-        tipoConsulta = "Razon";
+        tipoConsulta = "Nombre";
         tipoMenu = getIntent().getStringExtra("tipoMenu");
         QR = getIntent().getStringExtra("QR");
         codigo = getIntent().getStringExtra("codigo");
 
         if (QR == null){
-
             QR = "Es nulo";
         }else {
 
@@ -374,5 +373,9 @@ public class BusquedaClienteActivity extends AppCompatActivity {
             stringRequest.setRetryPolicy(policy);
             requestQueue.add(stringRequest);
         }
+    }
+    @Override
+    public void onBackPressed(){
+
     }
 }

@@ -246,4 +246,10 @@ public class IdPedidoActivity extends AppCompatActivity {
             requestQueue.add(stringRequest);
         }
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
+
 }

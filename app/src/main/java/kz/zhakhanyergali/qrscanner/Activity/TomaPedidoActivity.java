@@ -928,6 +928,11 @@ public class TomaPedidoActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+
+    }
+
 }
 
 

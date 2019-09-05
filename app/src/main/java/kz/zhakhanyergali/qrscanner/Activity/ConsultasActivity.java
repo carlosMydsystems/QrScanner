@@ -399,5 +399,10 @@ public class ConsultasActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
 }
 
