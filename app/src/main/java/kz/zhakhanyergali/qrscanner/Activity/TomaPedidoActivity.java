@@ -442,7 +442,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
                                     }
 
                                     etCantidad.requestFocus();
-                                    tvSubtotal.setText(listaPedido.get(0).getSubTotal());
+                                    tvSubtotal.setText(formateador.format(Double.parseDouble(listaPedido.get(0).getSubTotal())));
                                     tvmonto.setText("Duplicado");
                                 }
                             }else {

@@ -98,15 +98,10 @@ public class ConsultasActivity extends AppCompatActivity {
         });
 
 
-        if (cancela == null){
-
             VerificarCantidad(numeroPedido);
 
-        }else if (cancela.equals("cancela")){
 
 
-
-        }
     }
 
     // Parte que hace la verificación de la cantidad ingresada
