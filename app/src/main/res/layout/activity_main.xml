@@ -40,7 +40,8 @@
             android:clickable="true"
             android:onClick="mainActivityOnClickEvents"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_flash_on" />
+            android:src="@drawable/ic_flash_on"
+            android:visibility="gone" />
 
         <kz.zhakhanyergali.qrscanner.CustomWidgets.CustomTextView
             android:id="@+id/titleActionBar"

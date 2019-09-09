@@ -67,34 +67,35 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             @Override
             public void onClick(View view) {
 
-            if (tipoMenu.equals("TomaPedido")){
+                if (deDondeViene.equals("TomaPedido")){
 
-                Intent intent = new Intent(MainActivity.this,TomaPedidoActivity.class);
-                intent.putExtra("indice", indice);
-                intent.putExtra("monto", monto);
-                intent.putExtra("tipoMenu", ""+tipoMenu);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Cliente", clientes);
-                intent.putExtras(bundle);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable("Usuario", usuario);
-                intent.putExtras(bundle1);
-                Bundle bundle2 = new Bundle();
-                bundle2.putSerializable("Identificadores", identificadores);
-                intent.putExtras(bundle2);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(MainActivity.this,TomaPedidoActivity.class);
+                    intent.putExtra("monto", monto);
+                    intent.putExtra("QR","");
+                    intent.putExtra("tipoMenu", ""+tipoMenu);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Cliente", clientes);
+                    intent.putExtras(bundle);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putSerializable("Usuario", usuario);
+                    intent.putExtras(bundle1);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putSerializable("Identificadores", identificadores);
+                    intent.putExtras(bundle2);
+                    startActivity(intent);
+                    finish();
 
-            }else{
+                }else if(deDondeViene.equals("cliente")){
 
-                Intent intent1 = new Intent(MainActivity.this,BusquedaClienteActivity.class);
-                intent1.putExtra("tipoMenu", ""+tipoMenu);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable("Usuario", usuario);
-                intent1.putExtras(bundle1);
-                startActivity(intent1);
-                finish();
-            }
+                    Intent intent1 = new Intent(MainActivity.this,BusquedaClienteActivity.class);
+                    intent1.putExtra("tipoMenu", ""+tipoMenu);
+                    intent1.putExtra("QR","");
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putSerializable("Usuario", usuario);
+                    intent1.putExtras(bundle1);
+                    startActivity(intent1);
+                    finish();
+                }
             }
         });
     }

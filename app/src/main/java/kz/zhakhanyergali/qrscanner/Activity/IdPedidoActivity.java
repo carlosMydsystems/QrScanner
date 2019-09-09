@@ -99,15 +99,19 @@ public class IdPedidoActivity extends AppCompatActivity {
                     intent.putExtra("indice", identificadores.getDetalle());
                     intent.putExtra("monto", listaIdentificadores.get(position).getImporteTotal());
                     intent.putExtra("tipoMenu", ""+tipoMenu);
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Cliente", cliente);
                     intent.putExtras(bundle);
+
                     Bundle bundle1 = new Bundle();
                     bundle1.putSerializable("Usuario", usuario);
                     intent.putExtras(bundle1);
+
                     Bundle bundle2 = new Bundle();
                     bundle2.putSerializable("Identificadores", identificadores);
                     intent.putExtras(bundle2);
+
                     startActivity(intent);
                     finish();
 

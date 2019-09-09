@@ -25,9 +25,9 @@
     <TextView
         android:id="@+id/tvtituloPedidos"
         android:layout_width="0dp"
-        android:layout_height="42dp"
+        android:layout_height="38dp"
         android:background="#014284"
-        android:text="Bandeja de Pedidos"
+        android:text="Bandeja de Pedidos "
         android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="20sp"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPromocionElegida" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloLineaDisponible" />
 
     <TextView
         android:id="@+id/tvCancel"
@@ -70,5 +70,18 @@
         app:layout_constraintEnd_toStartOf="@+id/tvtituloPedidos"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvTituloLineaDisponible"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#014284"
+        android:text=" Linea disponible : "
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvtituloPedidos" />
 
 </android.support.constraint.ConstraintLayout>

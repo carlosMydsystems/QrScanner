@@ -136,24 +136,29 @@ public class BusquedaClienteActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
 
-                cliente = new Clientes();
-                identificadores = new Identificadores();
-                Intent intent = new Intent(BusquedaClienteActivity.this,MainActivity.class);
-                intent.putExtra("indice", "0");
-                intent.putExtra("monto", "0");
-                intent.putExtra("deDondeViene", "cliente");
-                intent.putExtra("tipoMenu", ""+tipoMenu);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Cliente", cliente);
-                intent.putExtras(bundle);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable("Usuario", usuario);
-                intent.putExtras(bundle1);
-                Bundle bundle2 = new Bundle();
-                bundle2.putSerializable("Identificadores", identificadores);
-                intent.putExtras(bundle2);
-                startActivity(intent);
-                finish();
+                if (tipoConsulta.equals("Nombre")){
+
+                    cliente = new Clientes();
+                    identificadores = new Identificadores();
+                    Intent intent = new Intent(BusquedaClienteActivity.this,MainActivity.class);
+                    intent.putExtra("indice", "0");
+                    intent.putExtra("monto", "0");
+                    intent.putExtra("deDondeViene", "cliente");
+                    intent.putExtra("tipoMenu", ""+tipoMenu);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Cliente", cliente);
+                    intent.putExtras(bundle);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putSerializable("Usuario", usuario);
+                    intent.putExtras(bundle1);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putSerializable("Identificadores", identificadores);
+                    intent.putExtras(bundle2);
+                    startActivity(intent);
+                    finish();
+
+                }
+
 
                 return false;
             }

@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,11 +26,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import kz.zhakhanyergali.qrscanner.Entidades.Usuario;
 import kz.zhakhanyergali.qrscanner.R;
 import kz.zhakhanyergali.qrscanner.Utilitarios.Utilitario;
@@ -55,10 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         if (validador) {
-
             ejecutaFuncionCursorTestMovil = "http://www.taiheng.com.pe:8494/oracle/ejecutaFuncionCursorDesaMovil.php?funcion=";
             ejecutaFuncionTestMovil = "http://www.taiheng.com.pe:8494/oracle/ejecutaFuncionDesaMovil.php?funcion=";
-
         }else{
             ejecutaFuncionCursorTestMovil = "http://www.taiheng.com.pe:"+puerto+"/oracle/ejecutaFuncionCursorTestMovil.php?funcion=";
             ejecutaFuncionTestMovil = "http://www.taiheng.com.pe:"+puerto+"/oracle/ejecutaFuncionTestMovil.php?funcion=";
@@ -80,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     verificarUsuario(etusuario.getText().toString().replace(" ", "").toUpperCase()
                             , etclave.getText().toString().replace(" ", "").toUpperCase(),imei);
-
                 }
             }else{
 
@@ -105,18 +99,17 @@ public class LoginActivity extends AppCompatActivity {
         Mensaje = "";
         RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
 
+ /*
         url =  ejecutaFuncionCursorTestMovil +
         "PKG_WEB_HERRAMIENTAS.FN_WS_LOGIN&variables='7|"+Codigo_usuario.toUpperCase()+"|"
                 +Contraseña_usuario.toUpperCase()+"|"+Imei+"'"; // se debe actalizar la URL
 
- /*
+*/
+
 
             url =  ejecutaFuncionCursorTestMovil +
             "PKG_WEB_HERRAMIENTAS.FN_WS_LOGIN&variables='7|"+Codigo_usuario.toUpperCase()+"|"
-            +Contraseña_usuario.toUpperCase()+"|358192060106435'"; // se debe actalizar la URL
-
-*/
-
+            +Contraseña_usuario.toUpperCase()+"|357014075225268'"; // se debe actalizar la URL
 
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url ,
                 new Response.Listener<String>() {

@@ -12,9 +12,14 @@ public class Identificadores implements Serializable {
     private String origen;
     private String importeTotal;
     private String Correlativo;
+    private String lineaDisponible;
 
     public Identificadores() {
     }
+
+    public String getLineaDisponible() { return lineaDisponible; }
+
+    public void setLineaDisponible(String lineaDisponible) { this.lineaDisponible = lineaDisponible; }
 
     public String getCorrelativo() { return Correlativo; }
 
