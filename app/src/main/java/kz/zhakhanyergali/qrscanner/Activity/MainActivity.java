@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.zxing.Result;
 import butterknife.BindView;
-import butterknife.OnClick;
 import kz.zhakhanyergali.qrscanner.Entidades.Clientes;
 import kz.zhakhanyergali.qrscanner.Entidades.Identificadores;
 import kz.zhakhanyergali.qrscanner.Entidades.Usuario;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     Clientes clientes;
     Usuario usuario;
     Identificadores identificadores;
-    String tipoMenu,monto,indice,deDondeViene;
+    String tipoMenu,monto,indice,deDondeViene,valida;
     ImageButton ibregresar;
 
     // Init ui elements
@@ -59,10 +58,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
         identificadores = (Identificadores)getIntent().getSerializableExtra("Identificadores");
         tipoMenu = getIntent().getStringExtra("tipoMenu");
+        valida = getIntent().getStringExtra("valida");
         monto = getIntent().getStringExtra("monto");
         indice = getIntent().getStringExtra("indice");
         deDondeViene = getIntent().getStringExtra("deDondeViene");
         ibregresar = findViewById(R.id.ibregresar);
+
         ibregresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Intent intent = new Intent(MainActivity.this,TomaPedidoActivity.class);
                     intent.putExtra("monto", monto);
                     intent.putExtra("QR","");
+                    intent.putExtra("valida","0");
                     intent.putExtra("tipoMenu", ""+tipoMenu);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Cliente", clientes);
@@ -160,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Intent intent = new Intent(MainActivity.this,TomaPedidoActivity.class);
                     intent.putExtra("codigo",rawResult.toString());
                     intent.putExtra("monto", monto);
+                    intent.putExtra("valida","1");
                     intent.putExtra("QR","Ok");
                     intent.putExtra("tipoMenu", ""+tipoMenu);
                     Bundle bundle = new Bundle();
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             }
         }
     }
-
+/*
     @OnClick
     void mainActivityOnClickEvents(View v) {
 
@@ -235,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 break;
         }
     }
-
+*/
     @Override
     public void onBackPressed(){
 

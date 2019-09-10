@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,7 +46,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
     TextView tvCliente,tvStock,tvPrecio,tvDescripcionProducto,tvPrecioReal,tvTasaDscto,
             tvDodPresentacion,tvEquivalencia,tvUnidad,tvSubtotal,tvtitulodinamico,textView4,textView9,
-            textView8,textView13,textView5,tvIndice,tvmonto;
+            textView8,textView13,textView5,tvIndice,tvmonto,tvMuestraLineaDisponible;
     EditText etCodProducto,etCantidad;
     Button btnVerificar,btnAgregar,btnbuscarProducto;
     Clientes clientes;
@@ -59,7 +57,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
     Producto producto;
     DecimalFormat formateador,formateador1;
     ImageButton ibRegresaCliente;
-    Identificadores identificadores;
+    Identificadores identificadores,identificadores1;
     Double precio;
     Pedido pedido;
     Integer valida = 0;
@@ -117,6 +115,7 @@ public class TomaPedidoActivity extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         tvIndice = findViewById(R.id.tvIndice);
         tvmonto = findViewById(R.id.tvmonto);
+        tvMuestraLineaDisponible = findViewById(R.id.tvMuestraLineaDisponible);
 
        tvIndice.setText(identificadores.getCorrelativo());
         etCodProducto.setText("");
@@ -132,6 +131,10 @@ public class TomaPedidoActivity extends AppCompatActivity {
                     Soles + "\t" + formateador.format(Double.parseDouble(identificadores.getImporteTotal())) + "";
 
             tvtitulodinamico.setText(cadenaTituloAux);
+
+            tvMuestraLineaDisponible.setText("Linea disponible  :  S/ " + formateador.format(Double.parseDouble(identificadores.getLineaDisponible())));
+
+
         }
 
         if(tipoMenu.equals("Actualizacion")){
@@ -596,22 +599,22 @@ public class TomaPedidoActivity extends AppCompatActivity {
 
                                     for (int i = 0; i < jsonArray.length(); i++) {
 
-                                        identificadores = new Identificadores();
+                                        identificadores1 = new Identificadores();
                                         jsonObject = jsonArray.getJSONObject(i);
-                                        identificadores.setIdPedido(jsonObject.getString("ID_PEDIDO"));
+                                        identificadores1.setIdPedido(jsonObject.getString("ID_PEDIDO"));
                                         if (idPedido.equals(jsonObject.getString("ID_PEDIDO"))){
-                                            identificadores.setCliente(jsonObject.getString("CLIENTE"));
-                                            identificadores.setDetalle(jsonObject.getString("DETALLE"));
-                                            identificadores.setFecha(jsonObject.getString("FECHA"));
-                                            identificadores.setSucursal(jsonObject.getString("SUCURSAL_CLI"));
-                                            identificadores.setOrigen(jsonObject.getString("ORIGEN"));
-                                            identificadores.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
-                                            identificadores.setCorrelativo(jsonObject.getString("CORRELATIVO"));
-                                            listaIdentificadores.add(identificadores);
+                                            identificadores1.setCliente(jsonObject.getString("CLIENTE"));
+                                            identificadores1.setDetalle(jsonObject.getString("DETALLE"));
+                                            identificadores1.setFecha(jsonObject.getString("FECHA"));
+                                            identificadores1.setSucursal(jsonObject.getString("SUCURSAL_CLI"));
+                                            identificadores1.setOrigen(jsonObject.getString("ORIGEN"));
+                                            identificadores1.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
+                                            identificadores1.setCorrelativo(jsonObject.getString("CORRELATIVO"));
+                                            listaIdentificadores.add(identificadores1);
                                         }
                                     }
 
-                                    identificadores.setIdPedido(listaIdentificadores.get(0).getIdPedido());
+                                    identificadores1.setIdPedido(listaIdentificadores.get(0).getIdPedido());
                                     cadenaTituloAux = "Productos : " + listaIdentificadores.get(0).getDetalle() + "   |  Monto : " +
                                             Soles + "\t"+ formateador.format(Double.parseDouble(listaIdentificadores.get(0).getImporteTotal())) + "";
                                     tvtitulodinamico.setText(cadenaTituloAux);

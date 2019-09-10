@@ -99,6 +99,8 @@ public class IdPedidoActivity extends AppCompatActivity {
                     intent.putExtra("indice", identificadores.getDetalle());
                     intent.putExtra("monto", listaIdentificadores.get(position).getImporteTotal());
                     intent.putExtra("tipoMenu", ""+tipoMenu);
+                    intent.putExtra("valida", "0");
+
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Cliente", cliente);
@@ -204,6 +206,7 @@ public class IdPedidoActivity extends AppCompatActivity {
                                 identificadores.setOrigen(jsonObject.getString("ORIGEN"));
                                 identificadores.setImporteTotal(jsonObject.getString("IMPORTE_TOTAL"));
                                 identificadores.setCorrelativo(jsonObject.getString("CORRELATIVO"));
+                                identificadores.setLineaDisponible(jsonObject.getString("LINEA_DISPONIBLE"));
                                 listaIdentificadores.add(identificadores);
                                 listaIdentificadoresStr.add(identificadores.getOrigen()+" - "+identificadores.getIdPedido());
                             }
